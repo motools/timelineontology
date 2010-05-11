@@ -1,0 +1,56 @@
+<h2 id="timeline">The Timeline Model</h2>
+<p>
+This ontology defines the <b>TimeLine</b> concept, representing a coherent backbone for
+addressing temporal information. Each <i>temporal</i> object (signal, video, performance, work, etc.) can
+be associated to such a timeline. Then, a number of <b>Interval</b> and <b>Instant</b> can be defined on this timeline, using
+the <b>tl:onTimeLine</b> property.
+</p>
+
+<p>
+A timeline is associated to one or several <b>coordinate systems</b>, allowing to address a particular point on them.
+Here, we use XML-Schema datatypes to define these systems. Therefore, an instant defined on a timeline may be linked 
+to a literal in the corresponding XSD datatype. Such restrictions are captured within the ontology, using
+sub-properties (constrained to one particular datatype) of the <b>tl:at</b> property.
+</p>
+
+<p>
+Two timelines may be linked together, using the <b>TimeLineMap</b> concept. For example, the <b>UniformSamplingMap</b>
+concept subsumes <b>TimeLineMap</b>, and captures the fact that a digital timeline is a sampled version of an
+analog timeline (and holds information about the sampling frequency). Another example is the <b>ShiftMap</b>, which captures a simple
+translation between timelines.
+</p>
+
+<p>
+An instant on a signal timeline (<a href="http://musicbrainz.org/track/6da76448-982a-4a01-b65b-9a710301c9c9.html">Smells like
+teen spirit, as published on the Nevermind album</a>), and an interval on the physical timeline can be depicted as follows:
+</p>
+<div style="text-align: center; margin-top: 50px; margin-bottom: 50px"><img src="timeline.png"/></div>
+
+<p>
+The corresponding RDF/N3 code is the following:
+</p>
+<div style="border: solid; border-width: 2px; border-color: grey; padding: 0 0 0 5px">
+<pre>
+@prefix event: &lt;http://purl.org/NET/c4dm/event.owl#&gt;.
+@prefix tl: &lt;http://purl.org/NET/c4dm/timeline.owl#&gt;.
+
+:instant 
+	a tl:Instant;
+	tl:timeline &lt;http://zitgist.com/music/signal/6da76448-982a-4a01-b65b-9a710301c9c9&gt;
+	tl:at "PT3S"^^xsd:duration;
+	.
+
+:interval
+	a tl:Interval;
+	tl:timeline tl:universaltimeline;
+	tl:start "2001-10-26T12:00:00Z"^^xsd:dateTime;
+	tl:duration "P7DT";
+	.
+</pre>
+</div>
+
+
+<hr/>
+
+
+

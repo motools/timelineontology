@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:time="http://www.w3.org/2006/time#"
+   xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+   xmlns="http://purl.org/NET/c4dm/timeline.owl#" xml:base="http://purl.org/NET/c4dm/timeline.owl#">
+  <owl:Ontology rdf:about="">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:comment>
+    	Extends owl-time ontology (http://www.w3.org/2006/time) with  
+	support for several timelines, acting as a backbone to adress 
+	time interval/instants. 
+
+	Mainly designed with a multimedia use-case in mind.
+
+	Copyright (c) Yves Raimond, Samer Abdallah, Centre for Digital Music, Queen Mary, University of London
+	</rdfs:comment>
+    <rdfs:label>The Timeline ontology</rdfs:label>
+    <owl:imports rdf:resource="http://www.w3.org/2006/time"/>
+    <owl:imports rdf:resource="http://www.w3.org/2006/time-entry"/>
+    <foaf:maker rdf:resource="http://moustaki.org/foaf.rdf#moustaki"/>
+  </owl:Ontology>
+  <foaf:Person rdf:about="http://moustaki.org/foaf.rdf#moustaki"/>
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Person"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/title"/>
+  <owl:ObjectProperty rdf:about="http://xmlns.com/foaf/0.1/maker"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2003/06/sw-vocab-status/ns#term_status"/>
+  <owl:Class rdf:about="#TimeLine">
+    <rdfs:comment>Represents a linear and coherent piece of time -- can be either abstract (such as the one behind a score) or concrete (such as the universal time line).
+Two timelines can be mapped using timeline maps.</rdfs:comment>
+    <rdfs:label>timeline</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#Instant">
+    <rdfs:comment>An instant (same as in OWL-Time)</rdfs:comment>
+    <rdfs:label>instant</rdfs:label>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2006/time#Instant"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#Interval">
+    <rdfs:comment>An interval (same as in OWL-Time). Allen's relationships are defined in OWL-Time.</rdfs:comment>
+    <rdfs:label>interval</rdfs:label>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2006/time#ProperInterval"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:FunctionalProperty rdf:about="#timeline">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment>
+	Relates an interval or an instant to the timeline on which it is defined.
+
+	The 29th of August, 2007 would be linked through this property to the universal timeline, whereas
+	"from 2s to 5s on this particular signal" would be defined on the signal' timeline.
+
+    </rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#Instant"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Interval"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label>on timeline</rdfs:label>
+    <rdfs:range rdf:resource="#TimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:ObjectProperty rdf:about="#onTimeLine">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:equivalentProperty rdf:resource="#timeline"/>
+    <vs:term_status>deprecated</vs:term_status>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:about="#at">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>refers to a point or an interval on the time line, through an explicit datatype</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#Interval"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Instant"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label>at</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:DatatypeProperty rdf:about="#duration">
+    <rdfs:comment>the duration of a time interval</rdfs:comment>
+    <rdfs:domain rdf:resource="#Interval"/>
+    <rdfs:label>duration</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#end">
+    <rdfs:comment>refers to the end of a time interval, through an explicit datatype. time:hasEnd can be used as well, if you want to associate the end of the interval to an explicit time point resource</rdfs:comment>
+    <rdfs:domain rdf:resource="#Interval"/>
+    <rdfs:label>ends at</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#endsAt">
+    <owl:equivalentProperty rdf:resource="#end"/>
+    <vs:term_status>deprecated</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#start">
+    <rdfs:comment>refers to the beginning of a time interval, through an explicit datatype. time:hasBeginning can be used as well, if you want to associate the beginning of the interval to an explicit time point resource</rdfs:comment>
+    <rdfs:domain rdf:resource="#Interval"/>
+    <rdfs:label>begins at</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#beginsAt">
+    <owl:equivalentProperty rdf:resource="#start"/>
+    <vs:term_status>deprecated</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:ObjectProperty rdf:about="#meets">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalMeets"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#equals">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalEquals"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#before">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalBefore"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#overlaps">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalOverlaps"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#starts">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalStarts"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#during">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalDuring"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#finishes">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalFinishes"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#after">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalAfter"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#metBy">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalMetBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#overlappedBy">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalOverlappedBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#startedBy">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalStartedBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#contains">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalContains"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#finishedBy">
+    <owl:equivalentProperty rdf:resource="http://www.w3.org/2006/time#intervalFinishedBy"/>
+  </owl:ObjectProperty>
+  <owl:Class rdf:about="#AbstractInterval">
+    <rdfs:comment>
+	An interval defined on an abstract time-line.
+    </rdfs:comment>
+    <rdfs:label>abstract interval</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Interval"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#timeline"/>
+        <owl:someValuesFrom rdf:resource="#AbstractTimeLine"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#AbstractTimeLine">
+    <rdfs:comment>
+    	Abstract time lines may be used as a backbone for Score, Works, ... 
+	This allows for TimeLine maps to relate works to a given 
+	performance (this part was played at this time).</rdfs:comment>
+    <rdfs:label>abstract timeline</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#UTInstant">
+    <rdfs:comment>This concept expresses that an instant defined on the universal timeline must be associated to a dateTime value</rdfs:comment>
+    <rdfs:label>instant on the universal timeline</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#atDateTime"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:hasValue rdf:resource="#universaltimeline"/>
+                <owl:onProperty rdf:resource="#timeline"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Instant"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#atDateTime">
+    <rdfs:comment>This property links an instant defined on the universal time line to an XSD date/time value</rdfs:comment>
+    <rdfs:label>at date/time</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <PhysicalTimeLine rdf:about="#universaltimeline">
+    <dc:description>The timeline one can addresss "the 1st of July, 2007"</dc:description>
+    <dc:title>the universal time line</dc:title>
+    <rdfs:comment>this is the `universal' time line -- can adress time intervals on it using date/dateTime -- UTC</rdfs:comment>
+    <vs:term_status>stable</vs:term_status>
+  </PhysicalTimeLine>
+  <owl:Class rdf:about="#UniformSamplingMap">
+    <rdfs:comment>Describe the relation between a continuous time-line and its sampled equivalent</rdfs:comment>
+    <rdfs:label>uniform sampling map</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLineMap"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#sampleRate"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#rangeTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#domainTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#RelativeTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith rdf:resource="#UniformSamplingWindowingMap"/>
+    <owl:disjointWith rdf:resource="#UniformWindowingMap"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:FunctionalProperty rdf:about="#sampleRate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>associates a sample rate value to a uniform sampling map</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#UniformSamplingMap"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#UniformSamplingWindowingMap"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label>sample rate</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#rangeTimeLine">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment>associates a timeline map to its range timeline</rdfs:comment>
+    <rdfs:domain rdf:resource="#TimeLineMap"/>
+    <rdfs:label>range timeline</rdfs:label>
+    <rdfs:range rdf:resource="#TimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:Class rdf:about="#DiscreteTimeLine">
+    <rdfs:comment>A discrete time line (like the time line backing a digital signal</rdfs:comment>
+    <rdfs:label>discrete time line</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLine"/>
+    <owl:disjointWith rdf:resource="#ContinuousTimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:FunctionalProperty rdf:about="#domainTimeLine">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:comment>associates a timeline map to its domain timeline</rdfs:comment>
+    <rdfs:domain rdf:resource="#TimeLineMap"/>
+    <rdfs:label>domain timeline</rdfs:label>
+    <rdfs:range rdf:resource="#TimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:Class rdf:about="#RelativeTimeLine">
+    <rdfs:comment>Semi infinite time line...canonical coordinate system --&gt; adressed through xsd:duration since the instant 0.</rdfs:comment>
+    <rdfs:label>relative timeline</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#ContinuousTimeLine"/>
+    <owl:disjointWith rdf:resource="#PhysicalTimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#TimeLineMap">
+    <rdfs:comment>Allows to map two time lines together</rdfs:comment>
+    <rdfs:label>timeline map</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#UniformWindowingMap">
+    <rdfs:comment>Describes the relation between a discrete time line and its windowed equivalent</rdfs:comment>
+    <rdfs:label>uniform windowing map</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLineMap"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#hopSize"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#windowLength"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#domainTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#rangeTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith rdf:resource="#UniformSamplingMap"/>
+    <owl:disjointWith rdf:resource="#UniformSamplingWindowingMap"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#UniformSamplingWindowingMap">
+    <rdfs:comment>Describes the relation between a continuous time-line, and a time-line that corresponds to its sampled and windowed equivalent</rdfs:comment>
+    <rdfs:label>Uniform sampling and windowing map</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLineMap"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#hopSize"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#windowLength"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#sampleRate"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#domainTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#ContinuousTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#rangeTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith rdf:resource="#UniformSamplingMap"/>
+    <owl:disjointWith rdf:resource="#UniformWindowingMap"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#DiscreteInstant">
+    <rdfs:comment>An instant defined on a discrete timeline</rdfs:comment>
+    <rdfs:label>discrete instant</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#atInt"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#timeline"/>
+                <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Instant"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#atInt">
+    <rdfs:comment>A subproperty of :at, having as a specific range xsd:int</rdfs:comment>
+    <rdfs:label>at (integer)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:Class rdf:about="#ContinuousTimeLine">
+    <rdfs:comment>A continuous timeline, like the universal one, or the one backing an analog signal</rdfs:comment>
+    <rdfs:label>continuous timeline</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLine"/>
+    <owl:disjointWith rdf:resource="#DiscreteTimeLine"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#PhysicalTimeLine"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#RelativeTimeLine"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#PhysicalTimeLine">
+    <rdfs:comment>A "physical" time-line (the universal time line (UTC)) is an instance of this class. Other time zones consists in instances of this class as well, with a "shifting" time line map relating them to the universal time line map.</rdfs:comment>
+    <rdfs:label>physical timeline</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#ContinuousTimeLine"/>
+    <owl:disjointWith rdf:resource="#RelativeTimeLine"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#OriginMap">
+    <rdfs:comment>A timeline map linking a physical timeline to a relative one (originating at some point on the physical timeline)</rdfs:comment>
+    <rdfs:label>origin map</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLineMap"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#rangeTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#RelativeTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#domainTimeLine"/>
+        <owl:someValuesFrom rdf:resource="#PhysicalTimeLine"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#DiscreteInterval">
+    <rdfs:comment>An interval defined on a discrete timeline, like the one backing a digital signal</rdfs:comment>
+    <rdfs:label>discrete interval</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Class>
+                <owl:intersectionOf>
+                  <rdf:Description>
+                    <rdf:first>
+                      <owl:Restriction>
+                        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                        <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasBeginning"/>
+                      </owl:Restriction>
+                    </rdf:first>
+                    <rdf:rest>
+                      <rdf:Description>
+                        <rdf:first>
+                          <owl:Restriction>
+                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                            <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasEnd"/>
+                          </owl:Restriction>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                      </rdf:Description>
+                    </rdf:rest>
+                  </rdf:Description>
+                </owl:intersectionOf>
+              </owl:Class>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first>
+                  <owl:Class>
+                    <owl:intersectionOf>
+                      <rdf:Description>
+                        <rdf:first>
+                          <owl:Restriction>
+                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                            <owl:onProperty rdf:resource="#beginsAtInt"/>
+                          </owl:Restriction>
+                        </rdf:first>
+                        <rdf:rest>
+                          <rdf:Description>
+                            <rdf:first>
+                              <owl:Restriction>
+                                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                <owl:onProperty rdf:resource="#endsAtInt"/>
+                              </owl:Restriction>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </rdf:Description>
+                        </rdf:rest>
+                      </rdf:Description>
+                    </owl:intersectionOf>
+                  </owl:Class>
+                </rdf:first>
+                <rdf:rest>
+                  <rdf:Description>
+                    <rdf:first>
+                      <owl:Class>
+                        <owl:intersectionOf>
+                          <rdf:Description>
+                            <rdf:first>
+                              <owl:Restriction>
+                                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                <owl:onProperty rdf:resource="#beginsAtInt"/>
+                              </owl:Restriction>
+                            </rdf:first>
+                            <rdf:rest>
+                              <rdf:Description>
+                                <rdf:first>
+                                  <owl:Restriction>
+                                    <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                    <owl:onProperty rdf:resource="#durationInt"/>
+                                  </owl:Restriction>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              </rdf:Description>
+                            </rdf:rest>
+                          </rdf:Description>
+                        </owl:intersectionOf>
+                      </owl:Class>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                  </rdf:Description>
+                </rdf:rest>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#timeline"/>
+                <owl:someValuesFrom rdf:resource="#DiscreteTimeLine"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Interval"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#beginsAtInt">
+    <rdfs:comment>A subproperty of :beginsAt, having xsd:int as a range</rdfs:comment>
+    <rdfs:label>begins at (integer)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:subPropertyOf rdf:resource="#start"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#endsAtInt">
+    <rdfs:comment>A subproperty of :endsAt, having xsd:int as a range</rdfs:comment>
+    <rdfs:label>ends at (integer)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:subPropertyOf rdf:resource="#end"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#durationInt">
+    <rdfs:comment>A subproperty of :duration, having xsd:int as a range</rdfs:comment>
+    <rdfs:label>duration (integer)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:subPropertyOf rdf:resource="#duration"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:Class rdf:about="#RelativeInterval">
+    <rdfs:comment>an interval defined on a relative timeline</rdfs:comment>
+    <rdfs:label>relative interval</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Class>
+                <owl:intersectionOf>
+                  <rdf:Description>
+                    <rdf:first>
+                      <owl:Restriction>
+                        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                        <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasBeginning"/>
+                      </owl:Restriction>
+                    </rdf:first>
+                    <rdf:rest>
+                      <rdf:Description>
+                        <rdf:first>
+                          <owl:Restriction>
+                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                            <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasEnd"/>
+                          </owl:Restriction>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                      </rdf:Description>
+                    </rdf:rest>
+                  </rdf:Description>
+                </owl:intersectionOf>
+              </owl:Class>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first>
+                  <owl:Class>
+                    <owl:intersectionOf>
+                      <rdf:Description>
+                        <rdf:first>
+                          <owl:Restriction>
+                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                            <owl:onProperty rdf:resource="#beginsAtDuration"/>
+                          </owl:Restriction>
+                        </rdf:first>
+                        <rdf:rest>
+                          <rdf:Description>
+                            <rdf:first>
+                              <owl:Restriction>
+                                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                <owl:onProperty rdf:resource="#durationXSD"/>
+                              </owl:Restriction>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </rdf:Description>
+                        </rdf:rest>
+                      </rdf:Description>
+                    </owl:intersectionOf>
+                  </owl:Class>
+                </rdf:first>
+                <rdf:rest>
+                  <rdf:Description>
+                    <rdf:first>
+                      <owl:Class>
+                        <owl:intersectionOf>
+                          <rdf:Description>
+                            <rdf:first>
+                              <owl:Restriction>
+                                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                <owl:onProperty rdf:resource="#beginsAtDuration"/>
+                              </owl:Restriction>
+                            </rdf:first>
+                            <rdf:rest>
+                              <rdf:Description>
+                                <rdf:first>
+                                  <owl:Restriction>
+                                    <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                    <owl:onProperty rdf:resource="#endsAtDuration"/>
+                                  </owl:Restriction>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              </rdf:Description>
+                            </rdf:rest>
+                          </rdf:Description>
+                        </owl:intersectionOf>
+                      </owl:Class>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                  </rdf:Description>
+                </rdf:rest>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#timeline"/>
+                <owl:someValuesFrom rdf:resource="#RelativeTimeLine"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Interval"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#beginsAtDuration">
+    <rdfs:comment>A property enabling to adress a start time point P of an interval [P,E] through the duration of the interval [0,P] on a continuous timeline</rdfs:comment>
+    <rdfs:label>begins at (xsd:duration)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+    <rdfs:subPropertyOf rdf:resource="#start"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#durationXSD">
+    <rdfs:comment>A subproperty of :duration, having xsd:duration as a range</rdfs:comment>
+    <rdfs:label>duration (xsd:duration)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+    <rdfs:subPropertyOf rdf:resource="#duration"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#endsAtDuration">
+    <rdfs:comment>A property enabling to adress an end time point P of an interval [S,P] through the duration of the interval [0,P] on a continuous timeline</rdfs:comment>
+    <rdfs:label>ends at (xsd:duration)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+    <rdfs:subPropertyOf rdf:resource="#end"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:Class rdf:about="#ShiftMap">
+    <rdfs:comment>a map just shifting one timeline to another</rdfs:comment>
+    <rdfs:label>shift map</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#TimeLineMap"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:Class rdf:about="#UTInterval">
+    <rdfs:comment>an interval defined on the universal time line</rdfs:comment>
+    <rdfs:label>universal timeline interval</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                <owl:onProperty rdf:resource="#atYear"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first>
+                  <owl:Restriction>
+                    <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                    <owl:onProperty rdf:resource="#atYearMonth"/>
+                  </owl:Restriction>
+                </rdf:first>
+                <rdf:rest>
+                  <rdf:Description>
+                    <rdf:first>
+                      <owl:Restriction>
+                        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                        <owl:onProperty rdf:resource="#atDate"/>
+                      </owl:Restriction>
+                    </rdf:first>
+                    <rdf:rest>
+                      <rdf:Description>
+                        <rdf:first>
+                          <owl:Class>
+                            <owl:intersectionOf>
+                              <rdf:Description>
+                                <rdf:first>
+                                  <owl:Restriction>
+                                    <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                    <owl:onProperty rdf:resource="#beginsAtDateTime"/>
+                                  </owl:Restriction>
+                                </rdf:first>
+                                <rdf:rest>
+                                  <rdf:Description>
+                                    <rdf:first>
+                                      <owl:Restriction>
+                                        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                        <owl:onProperty rdf:resource="#durationXSD"/>
+                                      </owl:Restriction>
+                                    </rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                  </rdf:Description>
+                                </rdf:rest>
+                              </rdf:Description>
+                            </owl:intersectionOf>
+                          </owl:Class>
+                        </rdf:first>
+                        <rdf:rest>
+                          <rdf:Description>
+                            <rdf:first>
+                              <owl:Class>
+                                <owl:intersectionOf>
+                                  <rdf:Description>
+                                    <rdf:first>
+                                      <owl:Restriction>
+                                        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                        <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasBeginning"/>
+                                      </owl:Restriction>
+                                    </rdf:first>
+                                    <rdf:rest>
+                                      <rdf:Description>
+                                        <rdf:first>
+                                          <owl:Restriction>
+                                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                            <owl:onProperty rdf:resource="http://www.w3.org/2006/time#hasEnd"/>
+                                          </owl:Restriction>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      </rdf:Description>
+                                    </rdf:rest>
+                                  </rdf:Description>
+                                </owl:intersectionOf>
+                              </owl:Class>
+                            </rdf:first>
+                            <rdf:rest>
+                              <rdf:Description>
+                                <rdf:first>
+                                  <owl:Class>
+                                    <owl:intersectionOf>
+                                      <rdf:Description>
+                                        <rdf:first>
+                                          <owl:Restriction>
+                                            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                            <owl:onProperty rdf:resource="#beginsAtDateTime"/>
+                                          </owl:Restriction>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                          <rdf:Description>
+                                            <rdf:first>
+                                              <owl:Restriction>
+                                                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+                                                <owl:onProperty rdf:resource="#endsAtDateTime"/>
+                                              </owl:Restriction>
+                                            </rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                          </rdf:Description>
+                                        </rdf:rest>
+                                      </rdf:Description>
+                                    </owl:intersectionOf>
+                                  </owl:Class>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              </rdf:Description>
+                            </rdf:rest>
+                          </rdf:Description>
+                        </rdf:rest>
+                      </rdf:Description>
+                    </rdf:rest>
+                  </rdf:Description>
+                </rdf:rest>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:hasValue rdf:resource="#universaltimeline"/>
+                <owl:onProperty rdf:resource="#timeline"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Interval"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#atYear">
+    <rdfs:comment>A subproperty of :at, allowing to address a year (beginning of it for an instant, all of it for an interval)</rdfs:comment>
+    <rdfs:label>at (year)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#atYearMonth">
+    <rdfs:comment>A subproperty of :at, allowing to address a year/month (beginning of it for an instant, all of it for an interval)</rdfs:comment>
+    <rdfs:label>at (year/month)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYearMonth"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#atDate">
+    <rdfs:comment>A subproperty of :at, allowing to address a date (beginning of it for an instant, all of it for an interval)</rdfs:comment>
+    <rdfs:label>at (date)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#beginsAtDateTime">
+    <rdfs:comment>A subproperty of :beginsAt, allowing to address the beginning of an interval as a date/time</rdfs:comment>
+    <rdfs:label>begins at (date/time)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:subPropertyOf rdf:resource="#start"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="#endsAtDateTime">
+    <rdfs:comment>A subproperty of :endsAt, allowing to address the end of an interval as a date/time</rdfs:comment>
+    <rdfs:label>ends at (date/time)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:subPropertyOf rdf:resource="#end"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:about="#hopSize">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>hop size, associated to a uniform windowing map</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#UniformWindowingMap"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#UniformSamplingWindowingMap"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label>hop size</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#windowLength">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>window length, associated to a uniform windowing map</rdfs:comment>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf>
+          <rdf:Description>
+            <rdf:first rdf:resource="#UniformWindowingMap"/>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#UniformSamplingWindowingMap"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:label>window length</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:Class rdf:about="#RelativeInstant">
+    <rdfs:comment>An instant defined on a relative timeline</rdfs:comment>
+    <rdfs:label>relative instant</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty rdf:resource="#atDuration"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf>
+          <rdf:Description>
+            <rdf:first>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#timeline"/>
+                <owl:someValuesFrom rdf:resource="#RelativeTimeLine"/>
+              </owl:Restriction>
+            </rdf:first>
+            <rdf:rest>
+              <rdf:Description>
+                <rdf:first rdf:resource="#Instant"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </rdf:Description>
+            </rdf:rest>
+          </rdf:Description>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#atDuration">
+    <rdfs:comment>A property enabling to adress a time point P through the duration of the interval [0,P] on a continuous timeline</rdfs:comment>
+    <rdfs:label>at (duration)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#duration"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:Class rdf:about="#AbstractInstant">
+    <rdfs:comment>An instant defined on an abstract timeline</rdfs:comment>
+    <rdfs:label>abstract instant</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Instant"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#timeline"/>
+        <owl:someValuesFrom rdf:resource="#AbstractTimeLine"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+    <vs:term_status>stable</vs:term_status>
+  </owl:Class>
+  <owl:DatatypeProperty rdf:about="#atReal">
+    <rdfs:comment>subproperty of :at, having xsd:float as a range</rdfs:comment>
+    <rdfs:label>at (real)</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:subPropertyOf rdf:resource="#at"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:about="#delay">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>associate a shift map to a particular delay</rdfs:comment>
+    <rdfs:domain rdf:resource="#ShiftMap"/>
+    <rdfs:label>delay</rdfs:label>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#origin">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment>associate an origin map to its origin on the domain physical timeline</rdfs:comment>
+    <rdfs:domain rdf:resource="#OriginMap"/>
+    <rdfs:label>origin</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <vs:term_status>stable</vs:term_status>
+  </owl:FunctionalProperty>
+</rdf:RDF>

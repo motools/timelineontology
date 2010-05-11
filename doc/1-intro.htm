@@ -1,0 +1,113 @@
+<div class="page">
+<h1>The Timeline Ontology</h1>
+<span style="font-size: large; ">
+<table width="100%" border="0">
+<tr>
+<td>
+        <dt><strong>Version :</strong></dt>
+                <dd>1.0, <a href="http://motools.sf.net/timeline/timeline.179.html">http://motools.sf.net/timeline/timeline.179.html</a>  (<a href="http://motools.sf.net/timeline/timeline.179.n3">rdf</a>)</dd>
+        <dt><strong>Latest Version :</strong></dt>
+                <dd><a href="http://motools.sf.net/timeline/timeline.html">http://motools.sf.net/timeline/timeline.html</a>  (<a href="http://motools.sf.net/timeline/timeline.n3">rdf</a>)</dd>
+        <dt><strong>Published :</strong></dt>
+                <dd>29th October 2007 </dd>
+        <dt><strong>Authors :</strong></dt>
+                <dd> <a href="mailto: yves@dbtune.org">Yves Raimond</a>, <a href="mailto: samer.abdallah@elec.qmul.ac.uk">Samer Abdallah</a></dd>
+</td>
+</tr>
+</table>
+</span>
+<br/>
+Copyright &copy; 2007 the authors above.
+<!-- Creative Commons License (taken from FOAF spec) -->
+<a href="http://creativecommons.org/licenses/by/3.0/">
+        <img alt= "Creative Commons License" style="border: 0; float: right; padding: 10px;" src= "http://i.creativecommons.org/l/by/3.0/88x31.png" />
+</a>
+<p class="copyright">This work is licensed under a <a href= "http://creativecommons.org/licenses/by/1.0/">Creative Commons Attribution License</a>.
+This copyright applies to the <em>Timeline Ontology</em> and accompanying documentation in RDF.
+This ontology uses W3C's <a href="http://www.w3.org/RDF/">RDF</a> technology, an open Web standard that can be freely used by anyone.</p>
+
+<hr/>
+
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#ns">Namespaces</a></li>
+<li><a href="#timeline">The Timeline model</a></li>
+<li><a href="#overview">Overview of Terms</a></li>
+<li><a href="#terms">Ontology Terms</a></li>
+<ol>
+<li><a href="#term_classes">Classes</a></li>
+<li><a href="#term_props">Properties</a></li>
+</ol>
+<li><a href="#ref">References</a></li>
+</ol>
+
+
+<h2 id="intro">Introduction</h2>
+
+<p>
+This document describes the Timeline ontology developed in the 
+<a href="http://www.elec.qmul.ac.uk/digitalmusic/">Centre for Digital 
+Music</a> in <a href="http://www.qmul.ac.uk">Queen Mary, University of
+London</a>. The first draft of the ontology was written in November, 2004.
+Further details about the Timeline ontology, related ontologies, and the
+technologies on which this ontology is founded, please see the 
+<a href="#ref">reference section</a>.
+</p>
+<p>
+This ontology is centered around the notion of <i>timeline</i>, seen here
+as a way to identify a temporal <i>backbone</i>. A timeline may support a signal, a video, a score, 
+a work, etc. A particular instance of a timeline is the physical one, on which <i>the 29th of October, 2007</i>
+is defined.
+</p>
+<p>
+This ontology, used with the <a href="http://purl.org/net/c4dm/event.owl">Event ontology</a>, can be used to 
+annotate sections of a signal, a video, or any <i>temporal</i> object. For example, it can be used to express:
+<ol>
+<li>This shot holds between this frame and that frame, in this video</li>
+<li>This performance happened at that particular date</li>
+<li>In this song, the first chorus is before the second verse</li>
+<li>A new structural segment starts at 2 minutes and 43 seconds, on this signal</li>
+<li>This signal is a sampled version of this one</li>
+<li>This part of the score corresponds to this section in an actual performance (in progress...)</li>
+</ol>
+</p>
+<p>
+Some tools to manipulate data from this ontology can be found in the 
+<a href="http://www.sourceforge.net/projects/motools/"><tt>motools</tt> project
+on Sourceforge</a>.
+</p>
+<p>
+This documentation page is a first draft. All feedback on either the ontology
+or this page is welcomed! The best place to do so are the <a href="http://groups.google.com/group/event-ontology-specification-group">
+Event ontology mailing list</a> or the <a href="http://groups.google.com/group/music-ontology-specification-group">Music ontology
+mailing list</a>, for music-related use cases. Or feel free to email the authors mentioned aboved. 
+</p>
+<p>
+The design and layout of this ontology document is based on the <a href="http://www.musicontology.com/">Music Ontology</a> and <a href="http://xmlns.com/foaf/spec/">FOAF Vocabulary</a> specification documents.
+</p>
+
+
+<h3 id="ns">Namespaces</h3>
+<p>Several namespaces will be assumed to have been defined for the remainder
+of this document. These are as follows :</p>
+
+<table width="75%">
+  <tr style="text-align: left"><th>Prefix</th><th>XML Namespace</th><th>Description</th></tr>
+  <tr>
+   <td width="15%">tl</td>
+   <td width="30%">http://purl.org/NET/c4dm/timeline.owl#</td>
+   <td width="30%"><a href="http://purl.org/NET/c4dm/timeline.owl#">The Timeline Ontology</a></td>
+  </tr>
+  <tr>
+    <td width="15%">time</td>
+    <td width="30%">http://www.w3.org/2006/time#</td>
+    <td width="30%"><a href="http://www.w3.org/2006/time#">OWL-Time</a></td>
+  </tr>
+</table>
+
+<hr/>
+
+
+
+

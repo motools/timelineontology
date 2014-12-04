@@ -163,7 +163,7 @@ Two timelines can be mapped using timeline maps.""" .
     """;
     vs:term_status "stable";
     rdfs:subClassOf :Interval;
-    owl:equivalentClass [
+    rdfs:subClassOf [
         a owl:Restriction;
         owl:someValuesFrom :AbstractTimeLine;
         owl:onProperty :timeline
@@ -778,7 +778,7 @@ Two timelines can be mapped using timeline maps.""" .
     vs:term_status "stable";
     a owl:Class;
     rdfs:subClassOf :Instant;
-    owl:equivalentClass [
+    rdfs:subClassOf [
         a owl:Restriction;
         owl:someValuesFrom :AbstractTimeLine;
         owl:onProperty :timeline
